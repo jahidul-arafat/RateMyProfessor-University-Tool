@@ -1,5 +1,17 @@
-import requests, json, sys, time, bs4
+import requests, json, sys, time, bs4, colorama
 from bs4 import BeautifulSoup
+from colorama import Fore, Back, Style
+colorama.init()
+
+def CheckSettings():
+    with open('./settings.json') as f:
+        data = json.load(f)
+
+    # If placeholder is in our settings.json, we will return false as placeholder should be a real value.
+    if data['settings']['school'] == "PLACEHOLDER":
+        return False
+    else:
+        return True # Else, we return true.
 
 # Pulls school from JSON to assist request functions.
 def PullRuntimeSchool():
@@ -85,6 +97,7 @@ def PrintRatings(ProfessorEntites, ProfessorProfile):
 
     print()
 
+# Pulls the ratings for each legacyID from RMP.
 def PullRatings(LegacyID):
     import requests
 
@@ -110,9 +123,25 @@ def PullRatings(LegacyID):
 
     return ProfessorProfile
 
+# Checks the menu input for the options.
+def MenuInputCheck(input):
+    menuOptions = ["0", "1", "2"]
 
+    for option in menuOptions:
+        if option == input:
+            return True
+    
+    return False
+
+# Menu Screen
 def MenuScreen():
-    print("Rate My Professor Lookup Tool\n")
+
+    if CheckSettings() == False:
+        print("Please input your University in settings.json before starting this program.")
+        time.sleep(2.021)
+        sys.exit()
+
+    print( Fore.CYAN + "Rate My Professor Lookup Tool\n")
 
     print("[0] - Exit")
     print("[1] - Search Multiple Professors")
@@ -120,6 +149,18 @@ def MenuScreen():
     userInput = input()
 
     ProfessorList = []
+
+    MenuFlag = MenuInputCheck(userInput)
+
+    # While the menuFlag is false, we'll keep asking for the input until we get a true value from the user.
+    while MenuFlag is False:
+        print("[0] - Exit")
+        print("[1] - Search Multiple Professors")
+        print("[2] - Search Single Professor")
+        userInput = input()
+
+        MenuFlag = MenuInputCheck(userInput)
+
 
     # Decision routes from the input
     if userInput == "0":
@@ -172,6 +213,7 @@ def MenuScreen():
 
     return ProfessorList
 
+# Processes all of the professor profiles.
 def ProcessRatings(ProfessorProfiles):
 
     tempProfessorProfiles = []
@@ -181,6 +223,7 @@ def ProcessRatings(ProfessorProfiles):
 
     return tempProfessorProfiles
 
+# Prints all professor profiles with their respective ratings.
 def PrintProfessorProfiles(ProfessorProfiles, ProfessorRatings):
     i = 0
     
