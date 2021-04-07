@@ -92,9 +92,6 @@ def PullLegacyForList(ProfessorList):
 
     return LegacyIDList
 
-def PrintRatings(ProfessorEntites, ProfessorProfile):
-
-    print()
 
 # Pulls the ratings for each legacyID from RMP.
 def PullRatings(LegacyID):
