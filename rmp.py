@@ -1,7 +1,6 @@
 import requests, json, sys, time, bs4, colorama
 from bs4 import BeautifulSoup
 from colorama import Fore, Back, Style
-colorama.init()
 
 def CheckSettings():
     with open('./settings.json') as f:

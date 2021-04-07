@@ -25,4 +25,3 @@ A: Upon launching you'll have 3 options, exit, search multiple professors, or se
     [0] - Exit is to exit the program.
     [1] - Input multiple professors, and you'll a report back of all valid professors.
     [2] - Input a single professor, and get you'll get a reportback if the professor is valid.
-
